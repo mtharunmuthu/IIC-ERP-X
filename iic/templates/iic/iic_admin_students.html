@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IIC ERP - Students</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 25px;
+        }
+
+        .header p {
+            margin-top: 5px;
+            color: #cbd5e1;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: #2563eb;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            font-size: 28px;
+        }
+
+        .count-card {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .count-card strong {
+            font-size: 25px;
+            color: #2563eb;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            text-align: left;
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .register {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .no-students {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div>
+            <h1>🎓 IIC ERP</h1>
+            <p>Innovation & Incubation Centre</p>
+        </div>
+
+        <a href="{% url 'iic_admin_dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+    <div class="container">
+
+        <div class="top-section">
+
+            <div>
+                <h2>👨‍🎓 Students</h2>
+                <p style="color:#64748b; margin-top:6px;">
+                    View all students registered in IIC ERP
+                </p>
+            </div>
+
+            <div class="count-card">
+                Total Students:
+                <strong>{{ student_count }}</strong>
+            </div>
+
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="studentSearch"
+                placeholder="🔍 Search by registration number, name, department, email..."
+                onkeyup="searchStudents()"
+            >
+        </div>
+
+        <div class="table-container">
+
+            <table id="studentsTable">
+
+                <thead>
+                    <tr>
+                        <th>Register No.</th>
+                        <th>Student Name</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td class="register">
+                            {{ student.register_number }}
+                        </td>
+
+                        <td class="student-name">
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                        </td>
+
+                        <td>
+                            {{ student.department }}
+                        </td>
+
+                        <td>
+                            {{ student.year }}
+                        </td>
+
+                        <td>
+                            {{ student.section }}
+                        </td>
+
+                        <td>
+                            {{ student.email }}
+                        </td>
+
+                        <td>
+                            {{ student.phone }}
+                        </td>
+
+                        <td>
+                            <span class="status">
+                                Active
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="no-students">
+                            🎓 No students registered yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function searchStudents() {
+
+            let input =
+                document.getElementById("studentSearch")
+                    .value
+                    .toLowerCase();
+
+            let rows =
+                document.querySelectorAll(
+                    "#studentsTable tbody tr"
+                );
+
+            rows.forEach(function(row) {
+
+                let text =
+                    row.innerText.toLowerCase();
+
+                if (text.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prototype Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .leader-box {
+            background: #eef5ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .members {
+            min-height: 160px;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 13px 25px;
+            border: none;
+            border-radius: 7px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #153eaa;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Prototype Registration</h1>
+
+    <p class="subtitle">
+        Register your team and prototype/project details.
+    </p>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <div class="leader-box">
+        <strong>Team Leader</strong><br><br>
+
+        {{ student.first_name }} {{ student.last_name }}<br>
+        Registration No: {{ student.register_number }}<br>
+        Email: {{ student.email }}
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Team Name *</label>
+        <input
+            type="text"
+            name="team_name"
+            placeholder="Enter team name"
+            required
+        >
+
+        <label>Project / Prototype Name *</label>
+        <input
+            type="text"
+            name="project_title"
+            placeholder="Enter project name"
+            required
+        >
+
+        <label>Project Category</label>
+        <input
+            type="text"
+            name="category"
+            placeholder="Example: AI, IoT, Web, Agriculture"
+        >
+
+        <label>Problem Statement</label>
+        <textarea
+            name="problem_statement"
+            placeholder="What problem does your project solve?"
+        ></textarea>
+
+        <label>Project Details</label>
+        <textarea
+            name="description"
+            placeholder="Explain your project/prototype"
+        ></textarea>
+
+        <label>Development Level</label>
+
+        <select name="development_level">
+
+            <option value="IDEA">Idea</option>
+
+            <option value="THEORY">Theory</option>
+
+            <option value="PROTOTYPE">Prototype</option>
+
+            <option value="WORKING_PROTOTYPE">
+                Working Prototype
+            </option>
+
+            <option value="COMPLETED">
+                Completed
+            </option>
+
+        </select>
+
+        <label>Team Members</label>
+
+        <select
+            name="members"
+            class="members"
+            multiple
+        >
+
+            {% for member in students %}
+
+                <option value="{{ member.id }}">
+                    {{ member.register_number }}
+                    -
+                    {{ member.first_name }}
+                    {{ member.last_name }}
+                    -
+                    {{ member.department }}
+                </option>
+
+            {% empty %}
+
+                <option disabled>
+                    No other students available
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <small>
+            Hold Ctrl and select multiple students.
+        </small>
+
+        <br>
+
+        <button type="submit">
+            Register Prototype & Team
+        </button>
+
+    </form>
+
+    <a class="back" href="{% url 'student_dashboard' %}">
+        ← Back to Student Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

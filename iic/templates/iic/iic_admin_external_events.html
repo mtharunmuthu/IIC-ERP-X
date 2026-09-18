@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IIC ERP - External Events</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 25px;
+        }
+
+        .header p {
+            margin-top: 5px;
+            color: #cbd5e1;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: #2563eb;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            font-size: 28px;
+        }
+
+        .count-card {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .count-card strong {
+            font-size: 25px;
+            color: #2563eb;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow-x: auto;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            text-align: left;
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .event-title {
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .event-type {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div>
+            <h1>🎓 IIC ERP</h1>
+            <p>Innovation & Incubation Centre</p>
+        </div>
+
+        <a href="{% url 'iic_admin_dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="top-section">
+
+            <div>
+                <h2>🏫 External Events</h2>
+
+                <p style="color:#64748b; margin-top:6px;">
+                    Events conducted by other colleges and organizations
+                </p>
+            </div>
+
+            <div class="count-card">
+                Total Events:
+                <strong>{{ event_count }}</strong>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="eventSearch"
+                placeholder="🔍 Search event, college, type or venue..."
+                onkeyup="searchEvents()"
+            >
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table id="eventsTable">
+
+                <thead>
+
+                    <tr>
+                        <th>Event</th>
+                        <th>Organizing College</th>
+                        <th>Event Type</th>
+                        <th>Date</th>
+                        <th>Venue</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for event in events %}
+
+                    <tr>
+
+                        <td class="event-title">
+                            {{ event.title }}
+                        </td>
+
+                        <td>
+                            {{ event.organizing_college }}
+                        </td>
+
+                        <td>
+                            <span class="event-type">
+                                {{ event.get_event_type_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ event.event_date|date:"M d, Y" }}
+                        </td>
+
+                        <td>
+                            {{ event.venue|default:"Not specified" }}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5" class="no-events">
+                            🏫 No external events recorded yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function searchEvents() {
+
+            let input =
+                document.getElementById("eventSearch")
+                .value
+                .toLowerCase();
+
+            let rows =
+                document.querySelectorAll(
+                    "#eventsTable tbody tr"
+                );
+
+            rows.forEach(function(row) {
+
+                let text =
+                    row.innerText.toLowerCase();
+
+                if (text.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>

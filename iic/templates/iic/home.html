@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IIC ERP | Home</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #172554;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 17px;
+            margin-bottom: 40px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            width: 250px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .register {
+            background: #2563eb;
+            color: white;
+        }
+
+        .login {
+            background: #16a34a;
+            color: white;
+        }
+
+        .admin {
+            background: #475569;
+            color: white;
+        }
+
+        .description {
+            margin-top: 40px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 35px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            IIC
+        </div>
+
+        <h1>IIC ERP</h1>
+
+        <p class="subtitle">
+            Innovation & Incubation Centre<br>
+            Student Management Portal
+        </p>
+
+        <div class="buttons">
+
+            <a href="{% url 'student_register' %}"
+               class="button register">
+                📝 Student Registration
+            </a>
+
+            <a href="{% url 'student_login' %}"
+               class="button login">
+                🔐 Student Login
+            </a>
+
+            <a href="/admin/"
+               class="button admin">
+                ⚙️ Admin Login
+            </a>
+
+        </div>
+
+        <p class="description">
+            Students can register and access their IIC profile,
+            activities, achievements and certificates.
+        </p>
+
+        <footer>
+            IIC ERP © 2026
+        </footer>
+
+    </div>
+
+</body>
+</html>
