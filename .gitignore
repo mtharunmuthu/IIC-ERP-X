@@ -1,10 +1,50 @@
+# Python
 __pycache__/
 *.py[cod]
-*.log
-db.sqlite3
-.env
+*$py.class
+
+# Virtual environments
 venv/
 env/
 .venv/
+
+# Django
+*.log
+db.sqlite3
+db_backup_before_production.sqlite3
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Django static/media generated files
+staticfiles/
+media/
+
+# Uploaded/generated files
+*.zip
+*.7z
+*.rar
+
+# Personal documents
+*.pdf
+
+# IDE / editor
 .vscode/
 .idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python test/cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local database backups
+*.sqlite3
+*.sqlite3-journal
+# Duplicate/local project folder
+IIC_ERP_Interactive_Management_Dashboard/

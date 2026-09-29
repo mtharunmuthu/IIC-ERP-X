@@ -6,10 +6,23 @@ from django.db import models
 # ============================================================
 
 class Department(models.Model):
-    name = models.CharField(max_length=100)
-    code = models.CharField(max_length=20, unique=True)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    code = models.CharField(
+        max_length=20,
+        unique=True
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     class Meta:
         ordering = ["name"]
@@ -23,6 +36,7 @@ class Department(models.Model):
 # ============================================================
 
 class Student(models.Model):
+
     register_number = models.CharField(
         max_length=30,
         unique=True
@@ -30,7 +44,10 @@ class Student(models.Model):
 
     date_of_birth = models.DateField()
 
-    first_name = models.CharField(max_length=100)
+    first_name = models.CharField(
+        max_length=100
+    )
+
     last_name = models.CharField(
         max_length=100,
         blank=True
@@ -51,12 +68,18 @@ class Student(models.Model):
     )
 
     year = models.PositiveSmallIntegerField()
-    section = models.CharField(max_length=10)
+
+    section = models.CharField(
+        max_length=10
+    )
 
     admission_year = models.PositiveIntegerField()
+
     graduation_year = models.PositiveIntegerField()
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -78,6 +101,7 @@ class Student(models.Model):
 # ============================================================
 
 class Team(models.Model):
+
     name = models.CharField(
         max_length=200,
         unique=True
@@ -119,6 +143,7 @@ class Team(models.Model):
 # ============================================================
 
 class TeamMember(models.Model):
+
     ROLE_CHOICES = [
         ("LEADER", "Team Leader"),
         ("MEMBER", "Team Member"),
@@ -162,6 +187,7 @@ class TeamMember(models.Model):
                 name="unique_team_student"
             )
         ]
+
         ordering = ["team", "student"]
 
     def __str__(self):
@@ -607,10 +633,13 @@ class Attendance(models.Model):
         ordering = ["-date"]
 
     def __str__(self):
+
         if self.student:
             person = self.student.register_number
+
         elif self.external_venture:
             person = self.external_venture.venture_name
+
         else:
             person = "Unknown"
 
@@ -668,6 +697,8 @@ class DailyProgress(models.Model):
 
     def __str__(self):
         return f"{self.team.name} - {self.date}"
+
+
 # ============================================================
 # EXTERNAL EVENTS
 # ============================================================
@@ -794,4 +825,55 @@ class StudentAchievement(models.Model):
         return (
             f"{self.student.register_number} - "
             f"{self.event.title} - {self.result}"
+        )
+
+
+# ============================================================
+# DAILY ATTENDANCE
+# ============================================================
+
+class DailyAttendance(models.Model):
+
+    STATUS_CHOICES = [
+        ("PRESENT", "Present"),
+        ("ABSENT", "Absent"),
+    ]
+
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        related_name="daily_attendance"
+    )
+
+    date = models.DateField()
+
+    punch_time = models.TimeField(
+        null=True,
+        blank=True
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="ABSENT"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ["-date", "-punch_time"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["student", "date"],
+                name="unique_student_daily_attendance"
+            )
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.student.register_number} - "
+            f"{self.date} - {self.status}"
         )

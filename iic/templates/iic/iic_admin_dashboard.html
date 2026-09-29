@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>IIC ERP Admin Dashboard</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -24,7 +28,10 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+
+        /* =========================
+           SIDEBAR
+        ========================= */
 
         .sidebar {
             width: 250px;
@@ -83,7 +90,10 @@
             color: white;
         }
 
-        /* MAIN */
+
+        /* =========================
+           MAIN
+        ========================= */
 
         .main {
             margin-left: 250px;
@@ -129,7 +139,10 @@
             color: #64748b;
         }
 
-        /* CARDS */
+
+        /* =========================
+           STAT CARDS
+        ========================= */
 
         .stats {
             display: grid;
@@ -173,7 +186,10 @@
             font-size: 14px;
         }
 
-        /* SECTIONS */
+
+        /* =========================
+           SECTIONS
+        ========================= */
 
         .sections {
             display: grid;
@@ -232,9 +248,13 @@
             padding: 20px 0;
         }
 
-        /* RESPONSIVE */
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (max-width: 900px) {
+
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -242,9 +262,12 @@
             .sections {
                 grid-template-columns: 1fr;
             }
+
         }
 
+
         @media (max-width: 650px) {
+
             .sidebar {
                 width: 70px;
                 padding: 15px 8px;
@@ -271,15 +294,22 @@
             .topbar {
                 padding: 0 20px;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
     <aside class="sidebar">
 
@@ -293,81 +323,168 @@
 
         </div>
 
+
         <ul class="menu">
 
+
+            <!-- DASHBOARD -->
+
             <li>
+
                 <a href="{% url 'iic_admin_dashboard' %}" class="active">
+
                     🏠 <span>Dashboard</span>
+
                 </a>
+
             </li>
 
+
+            <!-- STUDENTS -->
+
             <li>
+
                 <a href="{% url 'iic_admin_students' %}">
+
                     👨‍🎓 <span>Students</span>
+
                 </a>
+
             </li>
 
+
+            <!-- EXTERNAL EVENTS -->
+
             <li>
+
                 <a href="{% url 'iic_admin_external_events' %}">
+
                     🏫 <span>External Events</span>
+
                 </a>
+
             </li>
 
+
+            <!-- ACHIEVEMENTS -->
+
             <li>
+
                 <a href="{% url 'iic_admin_achievements' %}">
+
                     🏆 <span>Achievements</span>
+
                 </a>
+
             </li>
 
+
+            <!-- TEAMS -->
+
             <li>
+
                 <a href="{% url 'iic_admin_teams' %}">
+
                     👥 <span>Teams</span>
+
                 </a>
+
             </li>
 
+
+            <!-- ATTENDANCE -->
+
             <li>
+
+                <a href="{% url 'iic_admin_attendance' %}">
+
+                    📋 <span>Attendance</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- PROJECTS -->
+
+            <li>
+
                 <a href="/admin/iic/project/">
+
                     📁 <span>Projects</span>
+
                 </a>
+
             </li>
 
+
+            <!-- PROGRESS -->
+
             <li>
+
                 <a href="/admin/iic/dailyprogress/">
+
                     📊 <span>Progress</span>
+
                 </a>
+
             </li>
 
+
+            <!-- DJANGO ADMIN -->
+
             <li>
+
                 <a href="/admin/">
+
                     ⚙️ <span>Django Admin</span>
+
                 </a>
+
             </li>
+
 
         </ul>
 
     </aside>
 
 
-    <!-- MAIN -->
+
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <main class="main">
+
+
+        <!-- TOP BAR -->
 
         <header class="topbar">
 
             <h3>IIC Administration</h3>
 
             <div class="admin-name">
+
                 👤 {{ request.user.username }}
+
             </div>
 
         </header>
 
 
+
+        <!-- CONTENT -->
+
         <section class="content">
+
+
+            <!-- WELCOME -->
 
             <div class="welcome">
 
-                <h1>Welcome back, {{ request.user.username }} 👋</h1>
+                <h1>
+                    Welcome back, {{ request.user.username }} 👋
+                </h1>
 
                 <p>
                     Manage your Innovation and Incubation Centre activities
@@ -377,13 +494,20 @@
             </div>
 
 
-            <!-- STATISTICS -->
+
+            <!-- =========================
+                 STATISTICS
+            ========================= -->
 
             <div class="stats">
+
+
+                <!-- STUDENTS -->
 
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             Active Students
                         </div>
@@ -391,6 +515,7 @@
                         <div class="stat-number">
                             {{ student_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -400,9 +525,13 @@
                 </div>
 
 
+
+                <!-- EVENTS -->
+
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             Events
                         </div>
@@ -410,6 +539,7 @@
                         <div class="stat-number">
                             {{ event_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -419,9 +549,13 @@
                 </div>
 
 
+
+                <!-- EXTERNAL EVENTS -->
+
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             External Events
                         </div>
@@ -429,6 +563,7 @@
                         <div class="stat-number">
                             {{ external_event_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -438,9 +573,13 @@
                 </div>
 
 
+
+                <!-- ACHIEVEMENTS -->
+
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             Achievements
                         </div>
@@ -448,6 +587,7 @@
                         <div class="stat-number">
                             {{ achievement_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -457,9 +597,13 @@
                 </div>
 
 
+
+                <!-- TEAMS -->
+
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             Teams
                         </div>
@@ -467,6 +611,7 @@
                         <div class="stat-number">
                             {{ team_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -476,9 +621,13 @@
                 </div>
 
 
+
+                <!-- PROJECTS -->
+
                 <div class="card stat-card">
 
                     <div>
+
                         <div class="stat-label">
                             Projects
                         </div>
@@ -486,6 +635,7 @@
                         <div class="stat-number">
                             {{ project_count }}
                         </div>
+
                     </div>
 
                     <div class="stat-icon">
@@ -494,10 +644,14 @@
 
                 </div>
 
+
             </div>
 
 
-            <!-- LOWER SECTIONS -->
+
+            <!-- =========================
+                 LOWER SECTIONS
+            ========================= -->
 
             <div class="sections">
 
@@ -508,7 +662,9 @@
 
                     <div class="section-title">
 
-                        <h2>🏆 Recent Achievements</h2>
+                        <h2>
+                            🏆 Recent Achievements
+                        </h2>
 
                         <a href="{% url 'iic_admin_achievements' %}">
                             View All
@@ -516,85 +672,118 @@
 
                     </div>
 
+
                     {% for achievement in recent_achievements %}
 
                     <div class="item">
 
                         <div class="item-title">
+
                             {{ achievement.student.first_name }}
                             {{ achievement.student.last_name }}
+
                         </div>
 
                         <div class="item-info">
+
                             {{ achievement.event.title }}
+
                         </div>
 
                         <span class="badge">
+
                             {{ achievement.get_result_display }}
+
                         </span>
 
                     </div>
 
+
                     {% empty %}
 
                     <div class="empty">
+
                         No achievements recorded yet.
+
                     </div>
 
                     {% endfor %}
 
+
                 </div>
 
 
-                <!-- UPCOMING EVENTS -->
+
+                <!-- EXTERNAL EVENTS -->
 
                 <div class="card">
 
                     <div class="section-title">
 
-                        <h2>🏫 External Events</h2>
+                        <h2>
+                            🏫 External Events
+                        </h2>
 
                         <a href="/admin/iic/externalevent/">
+
                             View All
+
                         </a>
 
                     </div>
+
 
                     {% for event in upcoming_events %}
 
                     <div class="item">
 
                         <div class="item-title">
+
                             {{ event.title }}
+
                         </div>
 
                         <div class="item-info">
+
                             {{ event.organizing_college }}
+
                         </div>
 
                         <div class="item-info">
+
                             📅 {{ event.event_date }}
+
                         </div>
 
                     </div>
+
 
                     {% empty %}
 
                     <div class="empty">
+
                         No external events recorded yet.
+
                     </div>
 
                     {% endfor %}
 
+
                 </div>
+
 
             </div>
 
+
         </section>
+
 
     </main>
 
+
 </div>
 
+
 </body>
+
 </html>

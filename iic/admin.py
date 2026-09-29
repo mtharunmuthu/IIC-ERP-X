@@ -1,418 +1,83 @@
 from django.contrib import admin
+from django.apps import apps
 
-from .models import (
-    Department,
-    Student,
-    Team,
-    TeamMember,
-    Project,
-    IICMembership,
-    Event,
-    EventRegistration,
-    ExternalVenture,
-    ExternalPayment,
-    Attendance,
-    DailyProgress,
-    ExternalEvent,
-    StudentAchievement,
-)
 
-# ============================================================
-# DEPARTMENT
-# ============================================================
+# --------------------------------------------------
+# IIC ADMIN CONFIGURATION
+# --------------------------------------------------
 
-@admin.register(Department)
-class DepartmentAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "code",
-        "is_active",
+admin.site.site_header = "IIC ERP"
+admin.site.site_title = "IIC ERP"
+admin.site.index_title = "IIC Administration"
+
+# After successful login, show the custom IIC dashboard
+admin.site.index_template = "admin/iic_index.html"
+
+
+# --------------------------------------------------
+# Register IIC models in Django Admin
+# --------------------------------------------------
+
+iic_app = apps.get_app_config("iic")
+
+for model in iic_app.get_models():
+    if not admin.site.is_registered(model):
+        admin.site.register(model)
+
+
+# --------------------------------------------------
+# IIC Dashboard Data
+# --------------------------------------------------
+
+def iic_dashboard_context(request):
+    """
+    Supplies IIC dashboard information to Django Admin.
+    """
+
+    from .models import (
+        Student,
+        Event,
+        ExternalEvent,
+        StudentAchievement,
+        Team,
+        Project,
     )
 
-    search_fields = (
-        "name",
-        "code",
+    active_students = Student.objects.filter(
+        is_active=True
+    ).count()
+
+    events_count = Event.objects.count()
+
+    external_events_count = ExternalEvent.objects.count()
+
+    achievements_count = StudentAchievement.objects.count()
+
+    teams_count = Team.objects.filter(
+        is_active=True
+    ).count()
+
+    projects_count = Project.objects.count()
+
+    recent_achievements = (
+        StudentAchievement.objects
+        .all()
+        .order_by("-id")[:5]
     )
 
-    list_filter = (
-        "is_active",
+    recent_external_events = (
+        ExternalEvent.objects
+        .all()
+        .order_by("-id")[:5]
     )
 
-
-# ============================================================
-# STUDENT
-# ============================================================
-
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = (
-        "register_number",
-        "first_name",
-        "last_name",
-        "department",
-        "year",
-        "section",
-        "is_active",
-    )
-
-    search_fields = (
-        "register_number",
-        "first_name",
-        "last_name",
-        "email",
-    )
-
-    list_filter = (
-        "department",
-        "year",
-        "section",
-        "is_active",
-    )
-
-
-# ============================================================
-# TEAM
-# ============================================================
-
-@admin.register(Team)
-class TeamAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "team_leader",
-        "is_active",
-        "created_at",
-    )
-
-    search_fields = (
-        "name",
-        "team_leader__register_number",
-        "team_leader__first_name",
-        "team_leader__last_name",
-    )
-
-    list_filter = (
-        "is_active",
-    )
-
-
-# ============================================================
-# TEAM MEMBER
-# ============================================================
-
-@admin.register(TeamMember)
-class TeamMemberAdmin(admin.ModelAdmin):
-    list_display = (
-        "team",
-        "student",
-        "role",
-        "joined_date",
-        "is_active",
-    )
-
-    search_fields = (
-        "team__name",
-        "student__register_number",
-        "student__first_name",
-        "student__last_name",
-    )
-
-    list_filter = (
-        "role",
-        "is_active",
-        "team",
-    )
-
-
-# ============================================================
-# PROJECT
-# ============================================================
-
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "team",
-        "category",
-        "development_level",
-        "current_status",
-        "updated_at",
-    )
-
-    search_fields = (
-        "title",
-        "category",
-        "team__name",
-    )
-
-    list_filter = (
-        "development_level",
-        "current_status",
-        "category",
-    )
-
-
-# ============================================================
-# IIC MEMBERSHIP
-# ============================================================
-
-@admin.register(IICMembership)
-class IICMembershipAdmin(admin.ModelAdmin):
-    list_display = (
-        "membership_number",
-        "student",
-        "membership_type",
-        "joined_date",
-        "status",
-    )
-
-    search_fields = (
-        "membership_number",
-        "student__register_number",
-        "student__first_name",
-    )
-
-    list_filter = (
-        "membership_type",
-        "status",
-    )
-
-
-# ============================================================
-# EVENT
-# ============================================================
-
-@admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "event_type",
-        "event_date",
-        "venue",
-        "registration_required",
-        "is_active",
-    )
-
-    search_fields = (
-        "title",
-        "description",
-        "venue",
-    )
-
-    list_filter = (
-        "event_type",
-        "event_date",
-        "registration_required",
-        "is_active",
-    )
-
-    ordering = (
-        "-event_date",
-    )
-
-
-# ============================================================
-# EVENT REGISTRATION
-# ============================================================
-
-@admin.register(EventRegistration)
-class EventRegistrationAdmin(admin.ModelAdmin):
-    list_display = (
-        "student",
-        "event",
-        "registration_date",
-        "status",
-        "certificate_eligible",
-    )
-
-    search_fields = (
-        "student__register_number",
-        "student__first_name",
-        "student__last_name",
-        "event__title",
-    )
-
-    list_filter = (
-        "status",
-        "certificate_eligible",
-        "event",
-    )
-
-
-# ============================================================
-# EXTERNAL VENTURE
-# ============================================================
-
-@admin.register(ExternalVenture)
-class ExternalVentureAdmin(admin.ModelAdmin):
-    list_display = (
-        "venture_id",
-        "venture_name",
-        "contact_person",
-        "email",
-        "membership_start",
-        "membership_end",
-        "membership_fee",
-        "status",
-        "is_active",
-    )
-
-    search_fields = (
-        "venture_id",
-        "venture_name",
-        "contact_person",
-        "email",
-        "phone",
-    )
-
-    list_filter = (
-        "status",
-        "is_active",
-        "industry",
-    )
-
-
-# ============================================================
-# EXTERNAL PAYMENT
-# ============================================================
-
-@admin.register(ExternalPayment)
-class ExternalPaymentAdmin(admin.ModelAdmin):
-    list_display = (
-        "venture",
-        "amount",
-        "payment_date",
-        "payment_status",
-        "transaction_reference",
-    )
-
-    search_fields = (
-        "venture__venture_name",
-        "venture__venture_id",
-        "transaction_reference",
-    )
-
-    list_filter = (
-        "payment_status",
-        "payment_date",
-    )
-
-
-# ============================================================
-# ATTENDANCE
-# ============================================================
-
-@admin.register(Attendance)
-class AttendanceAdmin(admin.ModelAdmin):
-    list_display = (
-        "event",
-        "student",
-        "external_venture",
-        "date",
-        "status",
-    )
-
-    search_fields = (
-        "event__title",
-        "student__register_number",
-        "student__first_name",
-        "student__last_name",
-        "external_venture__venture_name",
-    )
-
-    list_filter = (
-        "status",
-        "event",
-        "date",
-    )
-
-
-# ============================================================
-# DAILY PROGRESS
-# ============================================================
-
-@admin.register(DailyProgress)
-class DailyProgressAdmin(admin.ModelAdmin):
-    list_display = (
-        "team",
-        "date",
-        "activity",
-        "progress_percentage",
-        "created_at",
-    )
-
-    search_fields = (
-        "team__name",
-        "team__project__title",
-        "activity",
-        "work_completed",
-    )
-
-    list_filter = (
-        "date",
-        "team",
-    )
-
-    ordering = (
-        "-date",
-    )
-# ============================================================
-# EXTERNAL EVENT
-# ============================================================
-
-@admin.register(ExternalEvent)
-class ExternalEventAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "organizing_college",
-        "event_type",
-        "event_date",
-        "venue",
-    )
-
-    search_fields = (
-        "title",
-        "organizing_college",
-        "venue",
-        "description",
-    )
-
-    list_filter = (
-        "event_type",
-        "event_date",
-    )
-
-    ordering = (
-        "-event_date",
-    )
-# ============================================================
-# STUDENT ACHIEVEMENT
-# ============================================================
-
-@admin.register(StudentAchievement)
-class StudentAchievementAdmin(admin.ModelAdmin):
-    list_display = (
-        "student",
-        "event",
-        "result",
-        "prize_name",
-        "prize_amount",
-        "created_at",
-    )
-
-    search_fields = (
-        "student__register_number",
-        "student__first_name",
-        "student__last_name",
-        "event__title",
-        "event__organizing_college",
-        "prize_name",
-    )
-
-    list_filter = (
-        "result",
-        "event",
-    )
-
-    ordering = (
-        "-created_at",
-    )
+    return {
+        "iic_active_students": active_students,
+        "iic_events_count": events_count,
+        "iic_external_events_count": external_events_count,
+        "iic_achievements_count": achievements_count,
+        "iic_teams_count": teams_count,
+        "iic_projects_count": projects_count,
+        "iic_recent_achievements": recent_achievements,
+        "iic_recent_external_events": recent_external_events,
+    }

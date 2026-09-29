@@ -50,16 +50,55 @@
             padding: 0 20px;
         }
 
-        .welcome {
+        /* WELCOME + ATTENDANCE */
+
+        .welcome-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .welcome {
+            margin: 0;
         }
 
         .welcome h2 {
-            margin-bottom: 5px;
+            margin: 0 0 5px 0;
         }
 
         .welcome p {
             color: #64748b;
+            margin: 0;
+        }
+
+        .attendance-box {
+            flex-shrink: 0;
+        }
+
+        .attendance-button {
+            border: none;
+            background: #16a34a;
+            color: white;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .attendance-button:hover {
+            background: #15803d;
+        }
+
+        .attendance-success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         .profile-card {
@@ -141,8 +180,28 @@
         }
 
         @media (max-width: 600px) {
+
             .header {
                 padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+
+            .welcome-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .attendance-box {
+                width: 100%;
+            }
+
+            .attendance-button,
+            .attendance-success {
+                width: 100%;
+                text-align: center;
             }
 
             .details {
@@ -152,34 +211,78 @@
             .modules {
                 grid-template-columns: 1fr;
             }
-
-            .container {
-                margin-top: 20px;
-            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- HEADER -->
+
     <div class="header">
+
         <h1>IIC ERP</h1>
 
         <a href="{% url 'student_logout' %}" class="logout">
             Logout
         </a>
+
     </div>
 
 
     <div class="container">
 
-        <div class="welcome">
-            <h2>Welcome, {{ student.first_name }}!</h2>
-            <p>Student Dashboard</p>
+        <!-- WELCOME + ATTENDANCE -->
+
+        <div class="welcome-row">
+
+            <div class="welcome">
+
+                <h2>
+                    Welcome, {{ student.first_name }}!
+                </h2>
+
+                <p>
+                    Student Dashboard
+                </p>
+
+            </div>
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="attendance-box">
+
+                {% if today_attendance %}
+
+                    <div class="attendance-success">
+                        ✅ Attendance Punched
+                    </div>
+
+                {% else %}
+
+                    <form method="post"
+                          action="{% url 'punch_attendance' %}">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="attendance-button">
+
+                            🟢 PUNCH ATTENDANCE
+
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            </div>
+
         </div>
 
 
-        <!-- Student Profile -->
+        <!-- STUDENT PROFILE -->
 
         <div class="profile-card">
 
@@ -199,7 +302,8 @@
                 <div class="detail">
                     <div class="label">Full Name</div>
                     <div class="value">
-                        {{ student.first_name }} {{ student.last_name }}
+                        {{ student.first_name }}
+                        {{ student.last_name }}
                     </div>
                 </div>
 
@@ -262,10 +366,9 @@
             </div>
 
         </div>
-        </div>
 
 
-        <!-- Prototype Registration -->
+        <!-- PROTOTYPE REGISTRATION -->
 
         <div class="profile-card">
 
@@ -289,45 +392,83 @@
                border-radius:7px;
                font-weight:bold;
                ">
+
                 🚀 Register Prototype / Create Team
+
             </a>
 
         </div>
 
 
-        <!-- IIC Modules -->
-
-
-        <!-- IIC Modules -->
+        <!-- IIC MODULES -->
 
         <div class="modules">
 
             <div class="module">
+
                 <div class="module-icon">📅</div>
+
                 <h3>Events</h3>
-                <p>View upcoming IIC events</p>
-                <div class="coming">Coming Soon</div>
+
+                <p>
+                    View upcoming IIC events
+                </p>
+
+                <div class="coming">
+                    Coming Soon
+                </div>
+
             </div>
 
+
             <div class="module">
+
                 <div class="module-icon">🏆</div>
+
                 <h3>Activities</h3>
-                <p>View your IIC activities</p>
-                <div class="coming">Coming Soon</div>
+
+                <p>
+                    View your IIC activities
+                </p>
+
+                <div class="coming">
+                    Coming Soon
+                </div>
+
             </div>
 
+
             <div class="module">
+
                 <div class="module-icon">📜</div>
+
                 <h3>Certificates</h3>
-                <p>View earned certificates</p>
-                <div class="coming">Coming Soon</div>
+
+                <p>
+                    View earned certificates
+                </p>
+
+                <div class="coming">
+                    Coming Soon
+                </div>
+
             </div>
 
+
             <div class="module">
+
                 <div class="module-icon">📢</div>
+
                 <h3>Announcements</h3>
-                <p>Latest IIC announcements</p>
-                <div class="coming">Coming Soon</div>
+
+                <p>
+                    Latest IIC announcements
+                </p>
+
+                <div class="coming">
+                    Coming Soon
+                </div>
+
             </div>
 
         </div>

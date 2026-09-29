@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IIC ERP Admin</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logout {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #dc2626;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>IIC ERP</h1>
+    <p>Innovation & Incubation Centre - Administration</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Welcome, {{ user.username }}</h2>
+
+        <p>You are securely logged into the IIC Admin Portal.</p>
+
+        <a class="logout" href="{% url 'admin:logout' %}">
+            Logout
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>IIC Dashboard</h2>
+
+        <p>Active Students: {{ iic_active_students }}</p>
+        <p>Events: {{ iic_events_count }}</p>
+        <p>External Events: {{ iic_external_events_count }}</p>
+        <p>Achievements: {{ iic_achievements_count }}</p>
+        <p>Teams: {{ iic_teams_count }}</p>
+        <p>Projects: {{ iic_projects_count }}</p>
+    </div>
+
+</div>
+
+</body>
+</html>

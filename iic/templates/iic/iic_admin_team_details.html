@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Team Details | IIC Admin</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fa;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 22px 45px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.85;
+        }
+
+        /* MAIN */
+
+        .container {
+            padding: 35px 45px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #172554;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* TEAM HEADER */
+
+        .team-header {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .team-header h2 {
+            margin: 0 0 8px;
+            color: #172554;
+            font-size: 28px;
+        }
+
+        .team-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* SECTION */
+
+        .section {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #172554;
+            font-size: 21px;
+        }
+
+        /* INFO GRID */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .label {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #172554;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #172554;
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .member-name {
+            font-weight: bold;
+            color: #172554;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* PROJECT */
+
+        .project-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #172554;
+            margin-bottom: 20px;
+        }
+
+        .project-text {
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .container {
+                padding: 25px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="header">
+
+    <h1>IIC ADMIN</h1>
+
+    <p>
+        Team Details
+    </p>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="container">
+
+    <a
+        href="{% url 'iic_admin_teams' %}"
+        class="back"
+    >
+        ← Back to Teams
+    </a>
+
+
+    <!-- =====================================================
+         TEAM INFORMATION
+    ====================================================== -->
+
+    <div class="team-header">
+
+        <h2>
+            {{ team.name }}
+        </h2>
+
+        {% if team.description %}
+
+            <div class="team-description">
+                {{ team.description }}
+            </div>
+
+        {% endif %}
+
+        <span class="status">
+            {% if team.is_active %}
+                Active
+            {% else %}
+                Inactive
+            {% endif %}
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         TEAM LEADER
+    ====================================================== -->
+
+    <div class="section">
+
+        <h3>
+            Team Leader
+        </h3>
+
+        {% if team.team_leader %}
+
+        <div class="info-grid">
+
+            <div class="info-box">
+
+                <span class="label">
+                    Name
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.first_name }}
+                    {{ team.team_leader.last_name }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Registration Number
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.register_number }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Department
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.department.name }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Year
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.year }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Section
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.section }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Phone
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.phone }}
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="label">
+                    Email
+                </span>
+
+                <span class="value">
+                    {{ team.team_leader.email }}
+                </span>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+            <p>
+                No team leader assigned.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         TEAM MEMBERS
+    ====================================================== -->
+
+    <div class="section">
+
+        <h3>
+            Team Members
+        </h3>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Registration Number
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Year
+                        </th>
+
+                        <th>
+                            Section
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Role
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for member in members %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+
+                            <span class="member-name">
+
+                                {{ member.student.first_name }}
+                                {{ member.student.last_name }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ member.student.register_number }}
+                        </td>
+
+                        <td>
+                            {{ member.student.department.name }}
+                        </td>
+
+                        <td>
+                            {{ member.student.year }}
+                        </td>
+
+                        <td>
+                            {{ member.student.section }}
+                        </td>
+
+                        <td>
+                            {{ member.student.email }}
+                        </td>
+
+                        <td>
+                            {{ member.student.phone }}
+                        </td>
+
+                        <td>
+
+                            <span class="role">
+
+                                {{ member.get_role_display }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="9">
+                            No team members found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PROJECT DETAILS
+    ====================================================== -->
+
+    <div class="section">
+
+        <h3>
+            Project Details
+        </h3>
+
+        {% if project %}
+
+            <div class="project-title">
+                {{ project.title }}
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <span class="label">
+                        Category
+                    </span>
+
+                    <span class="value">
+                        {{ project.category|default:"Not specified" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="label">
+                        Development Level
+                    </span>
+
+                    <span class="value">
+                        {{ project.get_development_level_display }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="label">
+                        Current Status
+                    </span>
+
+                    <span class="value">
+                        {{ project.get_current_status_display }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            {% if project.problem_statement %}
+
+            <div style="margin-top:25px;">
+
+                <strong>
+                    Problem Statement
+                </strong>
+
+                <p class="project-text">
+                    {{ project.problem_statement }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            {% if project.description %}
+
+            <div style="margin-top:25px;">
+
+                <strong>
+                    Project Description
+                </strong>
+
+                <p class="project-text">
+                    {{ project.description }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        {% else %}
+
+            <p>
+                No project has been assigned to this team.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

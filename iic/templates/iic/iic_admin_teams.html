@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>IIC ERP - Teams</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,6 +22,8 @@
             background: #f4f6f9;
             color: #222;
         }
+
+        /* HEADER */
 
         .header {
             background: #172554;
@@ -33,10 +40,14 @@
             opacity: 0.85;
         }
 
+        /* CONTAINER */
+
         .container {
             width: 92%;
             margin: 30px auto;
         }
+
+        /* TOP BAR */
 
         .top-bar {
             display: flex;
@@ -68,6 +79,8 @@
             background: #1e3a8a;
         }
 
+        /* STAT */
+
         .stats {
             display: flex;
             gap: 20px;
@@ -94,6 +107,8 @@
             margin-top: 8px;
         }
 
+        /* SEARCH */
+
         .search-box {
             background: white;
             padding: 18px;
@@ -114,6 +129,8 @@
         .search-box input:focus {
             border-color: #172554;
         }
+
+        /* TABLE */
 
         .table-container {
             background: white;
@@ -147,14 +164,25 @@
             background: #f8fafc;
         }
 
-        .team-name {
+        /* TEAM LINK */
+
+        .team-link {
             font-weight: bold;
             color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .team-link:hover {
+            color: #2563eb;
+            text-decoration: underline;
         }
 
         .project-name {
             color: #444;
         }
+
+        /* MEMBERS */
 
         .member {
             margin-bottom: 6px;
@@ -170,10 +198,14 @@
             margin-left: 5px;
         }
 
+        /* LEADER */
+
         .leader {
             font-weight: bold;
             color: #172554;
         }
+
+        /* STATUS */
 
         .status {
             display: inline-block;
@@ -185,13 +217,18 @@
             font-weight: bold;
         }
 
+        /* EMPTY */
+
         .empty {
             text-align: center;
             padding: 40px;
             color: #777;
         }
 
+        /* MOBILE */
+
         @media (max-width: 768px) {
+
             .header {
                 padding: 20px;
             }
@@ -209,181 +246,397 @@
             .stats {
                 flex-direction: column;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <div class="header">
-        <h1>IIC ERP</h1>
-        <p>Innovation & Incubation Centre</p>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        IIC ERP
+    </h1>
+
+    <p>
+        Innovation & Incubation Centre
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- TOP BAR -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h2>
+                👥 Teams
+            </h2>
+
+            <p>
+                Manage IIC project teams and members
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'iic_admin_dashboard' %}"
+            class="back-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
     </div>
 
-    <div class="container">
 
-        <div class="top-bar">
-            <div>
-                <h2>👥 Teams</h2>
-                <p>Manage IIC project teams and members</p>
-            </div>
+    <!-- =================================================
+         TEAM COUNT
+    ================================================== -->
 
-            <a href="{% url 'iic_admin_dashboard' %}" class="back-btn">
-                ← Back to Dashboard
-            </a>
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>
+                Total Teams
+            </h3>
+
+            <strong>
+                {{ team_count }}
+            </strong>
+
         </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <h3>Total Teams</h3>
-                <strong>{{ team_count }}</strong>
-            </div>
-        </div>
+    </div>
 
-        <div class="search-box">
-            <input
-                type="text"
-                id="teamSearch"
-                placeholder="Search team, project, leader or member..."
-                onkeyup="searchTeams()"
-            >
-        </div>
 
-        <div class="table-container">
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
 
-            {% if teams %}
+    <div class="search-box">
 
-            <table id="teamsTable">
+        <input
+            type="text"
+            id="teamSearch"
+            placeholder="Search team, project, leader or member..."
+            onkeyup="searchTeams()"
+        >
 
-                <thead>
-                    <tr>
-                        <th>Team Name</th>
-                        <th>Project Name</th>
-                        <th>Team Leader</th>
-                        <th>Team Members</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+    </div>
 
-                <tbody>
 
-                    {% for team in teams %}
+    <!-- =================================================
+         TABLE
+    ================================================== -->
 
-                    <tr>
+    <div class="table-container">
 
-                        <td>
-                            <div class="team-name">
-                                {{ team.name }}
-                            </div>
 
-                            {% if team.description %}
-                                <small>{{ team.description }}</small>
-                            {% endif %}
-                        </td>
+        {% if teams %}
 
-                        <td>
+
+        <table id="teamsTable">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Team Name
+                    </th>
+
+                    <th>
+                        Project Name
+                    </th>
+
+                    <th>
+                        Team Leader
+                    </th>
+
+                    <th>
+                        Team Members
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for team in teams %}
+
+
+                <tr>
+
+
+                    <!-- =================================
+                         TEAM NAME - CLICKABLE
+                    ================================== -->
+
+                    <td>
+
+                        <a
+                            href="{% url 'iic_admin_team_details' team.id %}"
+                            class="team-link"
+                        >
+
+                            {{ team.name }}
+
+                        </a>
+
+
+                        {% if team.description %}
+
+                            <br>
+
+                            <small>
+                                {{ team.description }}
+                            </small>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- =================================
+                         PROJECT
+                    ================================== -->
+
+                    <td>
+
+                        {% if team.project %}
+
                             <div class="project-name">
-                                {{ team.project.title|default:"No project assigned" }}
+
+                                {{ team.project.title }}
+
                             </div>
-                        </td>
 
-                        <td>
-                            {% if team.team_leader %}
-                                <span class="leader">
-                                    {{ team.team_leader.first_name }}
-                                    {{ team.team_leader.last_name }}
+                        {% else %}
+
+                            <div class="project-name">
+
+                                No project assigned
+
+                            </div>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- =================================
+                         TEAM LEADER
+                    ================================== -->
+
+                    <td>
+
+                        {% if team.team_leader %}
+
+                            <span class="leader">
+
+                                {{ team.team_leader.first_name }}
+
+                                {{ team.team_leader.last_name }}
+
+                            </span>
+
+                            <br>
+
+                            <small>
+
+                                {{ team.team_leader.register_number }}
+
+                            </small>
+
+                        {% else %}
+
+                            <span>
+                                Not assigned
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- =================================
+                         TEAM MEMBERS
+                    ================================== -->
+
+                    <td>
+
+
+                        {% for member in team.members.all %}
+
+
+                            <div class="member">
+
+
+                                {{ member.student.first_name }}
+
+                                {{ member.student.last_name }}
+
+
+                                <span class="role">
+
+                                    {{ member.get_role_display }}
+
                                 </span>
-                                <br>
-                                <small>
-                                    {{ team.team_leader.register_number }}
-                                </small>
-                            {% else %}
-                                <span>Not assigned</span>
-                            {% endif %}
-                        </td>
 
-                        <td>
 
-                            {% for member in team.members.all %}
+                            </div>
 
-                                <div class="member">
 
-                                    {{ member.student.first_name }}
-                                    {{ member.student.last_name }}
+                        {% empty %}
 
-                                    <span class="role">
-                                        {{ member.get_role_display }}
-                                    </span>
 
-                                </div>
+                            <span>
+                                No members
+                            </span>
 
-                            {% empty %}
 
-                                <span>No members</span>
+                        {% endfor %}
 
-                            {% endfor %}
 
-                        </td>
+                    </td>
 
-                        <td>
 
-                            {% if team.is_active %}
-                                <span class="status">Active</span>
-                            {% else %}
-                                <span>Inactive</span>
-                            {% endif %}
+                    <!-- =================================
+                         STATUS
+                    ================================== -->
 
-                        </td>
+                    <td>
 
-                    </tr>
 
-                    {% endfor %}
+                        {% if team.is_active %}
 
-                </tbody>
+                            <span class="status">
+                                Active
+                            </span>
 
-            </table>
+                        {% else %}
 
-            {% else %}
+                            <span>
+                                Inactive
+                            </span>
 
-                <div class="empty">
-                    <h3>No teams found</h3>
-                    <p>No IIC teams have been created yet.</p>
-                </div>
+                        {% endif %}
 
-            {% endif %}
 
-        </div>
+                    </td>
+
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+        {% else %}
+
+
+            <div class="empty">
+
+                <h3>
+                    No teams found
+                </h3>
+
+                <p>
+                    No IIC teams have been created yet.
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
 
     </div>
 
-    <script>
-        function searchTeams() {
 
-            const input = document
-                .getElementById("teamSearch")
-                .value
-                .toLowerCase();
+</div>
 
-            const rows = document
-                .getElementById("teamsTable")
-                ?.getElementsByTagName("tbody")[0]
-                ?.getElementsByTagName("tr");
 
-            if (!rows) {
-                return;
-            }
+<!-- =====================================================
+     SEARCH JAVASCRIPT
+===================================================== -->
 
-            for (let i = 0; i < rows.length; i++) {
+<script>
 
-                const text = rows[i]
-                    .innerText
-                    .toLowerCase();
+function searchTeams() {
 
-                rows[i].style.display =
-                    text.includes(input) ? "" : "none";
-            }
-        }
-    </script>
+    const input = document
+        .getElementById("teamSearch")
+        .value
+        .toLowerCase();
+
+
+    const table = document.getElementById("teamsTable");
+
+
+    if (!table) {
+        return;
+    }
+
+
+    const rows = table
+        .getElementsByTagName("tbody")[0]
+        .getElementsByTagName("tr");
+
+
+    for (let i = 0; i < rows.length; i++) {
+
+        const text = rows[i]
+            .innerText
+            .toLowerCase();
+
+
+        rows[i].style.display =
+            text.includes(input)
+                ? ""
+                : "none";
+
+    }
+
+}
+
+</script>
+
 
 </body>
+
 </html>

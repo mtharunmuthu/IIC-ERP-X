@@ -1,229 +1,1466 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Prototype Registration</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register Project - IIC</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
-            padding: 0;
+
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header-left p {
+            margin: 5px 0 0;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 10px 18px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+        }
+
+        /* ================================
+           MAIN CONTAINER
+        ================================= */
 
         .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
         }
 
-        h1 {
+        /* ================================
+           STUDENT INFO
+        ================================= */
+
+        .student-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .student-card h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #64748b;
             margin-bottom: 5px;
         }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 25px;
+        .info-value {
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        label {
-            display: block;
-            margin-top: 18px;
-            margin-bottom: 6px;
+        /* ================================
+           ERROR
+        ================================= */
+
+        .error-box {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* ================================
+           MAIN CARD
+        ================================= */
+
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #111827;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        /* ================================
+           PROJECT TYPE
+        ================================= */
+
+        .type-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .type-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .type-option:hover {
+            border-color: #2563eb;
+            background: #f8fbff;
+        }
+
+        .type-option.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .type-option input {
+            display: none;
+        }
+
+        .type-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .type-title {
+            font-size: 17px;
             font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .type-description {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc2626;
         }
 
         input,
         textarea,
         select {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
 
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .help-text {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* ================================
+           TEAM MEMBERS
+        ================================= */
+
+        #teamSection {
+            display: none;
+        }
+
+        .team-message {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .member-list {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .member-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .member-row:last-child {
+            border-bottom: none;
+        }
+
+        .member-row:hover {
+            background: #f8fafc;
+        }
+
+        .member-row.selected {
+            background: #eff6ff;
+        }
+
+        .member-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .member-details {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .member-meta {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
         .leader-box {
-            background: #eef5ff;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
             padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 13px;
         }
 
-        .members {
-            min-height: 160px;
+        .no-members {
+            padding: 25px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
         }
 
-        .error {
-            background: #ffe5e5;
-            color: #b00020;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+        .member-count {
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #2563eb;
         }
 
-        button {
-            margin-top: 25px;
-            padding: 13px 25px;
-            border: none;
+        /* ================================
+           SOLO MESSAGE
+        ================================= */
+
+        #soloMessage {
+            display: none;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .button-area {
+            margin-top: 35px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            background: #e5e7eb;
+            color: #374151;
+            padding: 13px 22px;
             border-radius: 7px;
-            background: #1d4ed8;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            border: none;
+            background: #2563eb;
             color: white;
-            font-size: 16px;
+            padding: 13px 25px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 14px;
             cursor: pointer;
         }
 
-        button:hover {
-            background: #153eaa;
+        .submit-btn:hover {
+            background: #1d4ed8;
         }
 
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #1d4ed8;
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 800px) {
+
+            .student-info {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .type-options {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .header-left h1 {
+                font-size: 20px;
+            }
+
         }
+
+        @media (max-width: 500px) {
+
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .button-area {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .submit-btn {
+                text-align: center;
+                width: 100%;
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
-<div class="container">
 
-    <h1>Prototype Registration</h1>
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
-    <p class="subtitle">
-        Register your team and prototype/project details.
-    </p>
+<div class="header">
 
-    {% if error %}
-        <div class="error">
-            {{ error }}
-        </div>
-    {% endif %}
+    <div class="header-left">
 
-    <div class="leader-box">
-        <strong>Team Leader</strong><br><br>
+        <h1>IIC PROJECT REGISTRATION</h1>
 
-        {{ student.first_name }} {{ student.last_name }}<br>
-        Registration No: {{ student.register_number }}<br>
-        Email: {{ student.email }}
+        <p>
+            Innovation & Incubation Centre
+        </p>
+
     </div>
 
-    <form method="POST">
-
-        {% csrf_token %}
-
-        <label>Team Name *</label>
-        <input
-            type="text"
-            name="team_name"
-            placeholder="Enter team name"
-            required
-        >
-
-        <label>Project / Prototype Name *</label>
-        <input
-            type="text"
-            name="project_title"
-            placeholder="Enter project name"
-            required
-        >
-
-        <label>Project Category</label>
-        <input
-            type="text"
-            name="category"
-            placeholder="Example: AI, IoT, Web, Agriculture"
-        >
-
-        <label>Problem Statement</label>
-        <textarea
-            name="problem_statement"
-            placeholder="What problem does your project solve?"
-        ></textarea>
-
-        <label>Project Details</label>
-        <textarea
-            name="description"
-            placeholder="Explain your project/prototype"
-        ></textarea>
-
-        <label>Development Level</label>
-
-        <select name="development_level">
-
-            <option value="IDEA">Idea</option>
-
-            <option value="THEORY">Theory</option>
-
-            <option value="PROTOTYPE">Prototype</option>
-
-            <option value="WORKING_PROTOTYPE">
-                Working Prototype
-            </option>
-
-            <option value="COMPLETED">
-                Completed
-            </option>
-
-        </select>
-
-        <label>Team Members</label>
-
-        <select
-            name="members"
-            class="members"
-            multiple
-        >
-
-            {% for member in students %}
-
-                <option value="{{ member.id }}">
-                    {{ member.register_number }}
-                    -
-                    {{ member.first_name }}
-                    {{ member.last_name }}
-                    -
-                    {{ member.department }}
-                </option>
-
-            {% empty %}
-
-                <option disabled>
-                    No other students available
-                </option>
-
-            {% endfor %}
-
-        </select>
-
-        <small>
-            Hold Ctrl and select multiple students.
-        </small>
-
-        <br>
-
-        <button type="submit">
-            Register Prototype & Team
-        </button>
-
-    </form>
-
-    <a class="back" href="{% url 'student_dashboard' %}">
-        ← Back to Student Dashboard
+    <a
+        href="{% url 'student_dashboard' %}"
+        class="back-btn"
+    >
+        ← Dashboard
     </a>
 
 </div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="container">
+
+
+    <!-- =====================================================
+         STUDENT INFORMATION
+    ====================================================== -->
+
+    <div class="student-card">
+
+        <h2>Student Information</h2>
+
+        <div class="student-info">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Registration Number
+                </div>
+
+                <div class="info-value">
+                    {{ student.register_number }}
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Student Name
+                </div>
+
+                <div class="info-value">
+
+                    {{ student.first_name }}
+
+                    {{ student.last_name }}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Department
+                </div>
+
+                <div class="info-value">
+
+                    {{ student.department }}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Year / Section
+                </div>
+
+                <div class="info-value">
+
+                    {{ student.year }}
+                    /
+                    {{ student.section }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ERROR MESSAGE
+    ====================================================== -->
+
+    {% if error %}
+
+        <div class="error-box">
+
+            {{ error }}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         ALREADY REGISTERED TEAM
+    ====================================================== -->
+
+    {% if existing_team %}
+
+        <div class="form-card">
+
+            <h2>
+                Project Already Registered
+            </h2>
+
+            <p>
+                You are already registered in the active team:
+            </p>
+
+            <strong>
+                {{ existing_team.name }}
+            </strong>
+
+            <div style="margin-top:25px;">
+
+                <a
+                    href="{% url 'student_dashboard' %}"
+                    class="submit-btn"
+                    style="text-decoration:none; display:inline-block;"
+                >
+                    Go to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+
+    <!-- =====================================================
+         REGISTRATION FORM
+    ====================================================== -->
+
+    <div class="form-card">
+
+        <h2>
+            Register Your Project / Prototype
+        </h2>
+
+        <p style="color:#64748b; font-size:14px;">
+
+            Register your IIC project and provide the required
+            team and project information.
+
+        </p>
+
+
+        <form
+            method="POST"
+            id="projectForm"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =================================================
+                 STEP 1 - PROJECT TYPE
+            ================================================== -->
+
+            <div class="section-title">
+
+                Step 1 — Select Project Type
+
+            </div>
+
+
+            <div class="type-options">
+
+
+                <!-- SOLO -->
+
+                <label
+                    class="type-option"
+                    id="soloOption"
+                >
+
+                    <input
+                        type="radio"
+                        name="team_type"
+                        value="SOLO"
+                        id="soloRadio"
+                    >
+
+                    <div class="type-icon">
+                        👤
+                    </div>
+
+                    <div class="type-title">
+                        Solo Project
+                    </div>
+
+                    <div class="type-description">
+
+                        I am working on the project individually.
+                        I will be the project leader and only team member.
+
+                    </div>
+
+                </label>
+
+
+                <!-- TEAM -->
+
+                <label
+                    class="type-option"
+                    id="teamOption"
+                >
+
+                    <input
+                        type="radio"
+                        name="team_type"
+                        value="TEAM"
+                        id="teamRadio"
+                    >
+
+                    <div class="type-icon">
+                        👥
+                    </div>
+
+                    <div class="type-title">
+                        Team Project
+                    </div>
+
+                    <div class="type-description">
+
+                        I am working with other students.
+                        I will select my team members below.
+
+                    </div>
+
+                </label>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SOLO MESSAGE
+            ================================================== -->
+
+            <div id="soloMessage">
+
+                <strong>Solo Project Selected</strong>
+
+                <br><br>
+
+                You will automatically become the
+                <strong>Team Leader</strong> and the only
+                member of your project.
+
+            </div>
+
+
+            <!-- =================================================
+                 STEP 2 - TEAM MEMBERS
+            ================================================== -->
+
+            <div
+                id="teamSection"
+            >
+
+                <div class="section-title">
+
+                    Step 2 — Add Team Members
+
+                </div>
+
+
+                <div class="team-message">
+
+                    <strong>Important:</strong>
+
+                    You are automatically added as the
+                    <strong>Team Leader</strong>.
+
+                    Select at least one other student to create
+                    a Team Project.
+
+                    Students who are already registered in another
+                    active team cannot be selected.
+
+                </div>
+
+
+                <div class="leader-box">
+
+                    <strong>Team Leader</strong>
+
+                    <br>
+
+                    {{ student.first_name }}
+                    {{ student.last_name }}
+
+                    —
+                    {{ student.register_number }}
+
+                    <br>
+
+                    {{ student.department }}
+                    |
+                    Year {{ student.year }}
+                    |
+                    Section {{ student.section }}
+
+                </div>
+
+
+                {% if students %}
+
+                    <div class="member-list">
+
+
+                        {% for member in students %}
+
+                            <label
+                                class="member-row"
+                            >
+
+                                <input
+                                    type="checkbox"
+                                    name="members"
+                                    value="{{ member.id }}"
+                                    class="member-checkbox"
+                                >
+
+
+                                <div class="member-details">
+
+                                    <div class="member-name">
+
+                                        {{ member.first_name }}
+                                        {{ member.last_name }}
+
+                                    </div>
+
+                                    <div class="member-meta">
+
+                                        Register No:
+                                        <strong>
+                                            {{ member.register_number }}
+                                        </strong>
+
+                                        <br>
+
+                                        Department:
+                                        {{ member.department }}
+
+                                        &nbsp; | &nbsp;
+
+                                        Year:
+                                        {{ member.year }}
+
+                                        &nbsp; | &nbsp;
+
+                                        Section:
+                                        {{ member.section }}
+
+                                        <br>
+
+                                        Email:
+                                        {{ member.email }}
+
+                                        &nbsp; | &nbsp;
+
+                                        Phone:
+                                        {{ member.phone }}
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                    <div
+                        class="member-count"
+                        id="memberCount"
+                    >
+                        0 team members selected
+                    </div>
+
+
+                {% else %}
+
+                    <div class="no-members">
+
+                        No other available students were found.
+
+                        <br><br>
+
+                        If you are working alone,
+                        select <strong>Solo Project</strong>.
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =================================================
+                 PROJECT DETAILS
+            ================================================== -->
+
+            <div class="section-title">
+
+                Step 3 — Project Details
+
+            </div>
+
+
+            <!-- TEAM NAME -->
+
+            <div class="form-group">
+
+                <label for="team_name">
+
+                    Team / Project Name
+
+                    <span class="required">*</span>
+
+                </label>
+
+                <input
+                    type="text"
+                    name="team_name"
+                    id="team_name"
+                    placeholder="Enter your team or project name"
+                    required
+                >
+
+                <div class="help-text">
+
+                    Example:
+                    Smart Agriculture Team
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECT TITLE -->
+
+            <div class="form-group">
+
+                <label for="project_title">
+
+                    Project Title
+
+                    <span class="required">*</span>
+
+                </label>
+
+                <input
+                    type="text"
+                    name="project_title"
+                    id="project_title"
+                    placeholder="Enter your project title"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CATEGORY + DEVELOPMENT LEVEL -->
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="category">
+
+                        Project Category
+
+                    </label>
+
+                    <select
+                        name="category"
+                        id="category"
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Agriculture">
+                            Agriculture
+                        </option>
+
+                        <option value="Artificial Intelligence">
+                            Artificial Intelligence
+                        </option>
+
+                        <option value="IoT">
+                            IoT
+                        </option>
+
+                        <option value="Robotics">
+                            Robotics
+                        </option>
+
+                        <option value="Healthcare">
+                            Healthcare
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="FinTech">
+                            FinTech
+                        </option>
+
+                        <option value="Environment">
+                            Environment
+                        </option>
+
+                        <option value="Manufacturing">
+                            Manufacturing
+                        </option>
+
+                        <option value="Software">
+                            Software
+                        </option>
+
+                        <option value="Hardware">
+                            Hardware
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="development_level">
+
+                        Development Level
+
+                    </label>
+
+                    <select
+                        name="development_level"
+                        id="development_level"
+                    >
+
+                        <option value="IDEA">
+                            Idea
+                        </option>
+
+                        <option value="POC">
+                            Proof of Concept (POC)
+                        </option>
+
+                        <option value="PROTOTYPE">
+                            Prototype
+                        </option>
+
+                        <option value="MVP">
+                            MVP
+                        </option>
+
+                        <option value="PRODUCT">
+                            Product
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PROBLEM STATEMENT -->
+
+            <div class="form-group">
+
+                <label for="problem_statement">
+
+                    Problem Statement
+
+                </label>
+
+                <textarea
+                    name="problem_statement"
+                    id="problem_statement"
+                    placeholder="Describe the problem your project is trying to solve..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+
+                    Project Description
+
+                </label>
+
+                <textarea
+                    name="description"
+                    id="description"
+                    placeholder="Explain your project, proposed solution, technology used, and expected outcome..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- =================================================
+                 BUTTONS
+            ================================================== -->
+
+            <div class="button-area">
+
+                <a
+                    href="{% url 'student_dashboard' %}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="submitButton"
+                >
+                    Register Project
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    const soloRadio =
+        document.getElementById("soloRadio");
+
+    const teamRadio =
+        document.getElementById("teamRadio");
+
+    const soloOption =
+        document.getElementById("soloOption");
+
+    const teamOption =
+        document.getElementById("teamOption");
+
+    const soloMessage =
+        document.getElementById("soloMessage");
+
+    const teamSection =
+        document.getElementById("teamSection");
+
+    const memberCheckboxes =
+        document.querySelectorAll(".member-checkbox");
+
+    const memberCount =
+        document.getElementById("memberCount");
+
+    const projectForm =
+        document.getElementById("projectForm");
+
+
+    /* ==========================================
+       PROJECT TYPE
+    ========================================== */
+
+    function updateProjectType() {
+
+        if (!soloRadio || !teamRadio) {
+            return;
+        }
+
+
+        if (soloRadio.checked) {
+
+            soloOption.classList.add("selected");
+
+            teamOption.classList.remove("selected");
+
+            soloMessage.style.display = "block";
+
+            teamSection.style.display = "none";
+
+
+            /* Remove team member selections */
+
+            memberCheckboxes.forEach(function(checkbox) {
+
+                checkbox.checked = false;
+
+                checkbox.closest(".member-row")
+                    .classList.remove("selected");
+
+            });
+
+
+            updateMemberCount();
+
+        }
+
+
+        else if (teamRadio.checked) {
+
+            teamOption.classList.add("selected");
+
+            soloOption.classList.remove("selected");
+
+            soloMessage.style.display = "none";
+
+            teamSection.style.display = "block";
+
+        }
+
+    }
+
+
+    /* ==========================================
+       MEMBER COUNT
+    ========================================== */
+
+    function updateMemberCount() {
+
+        if (!memberCount) {
+            return;
+        }
+
+
+        let count = 0;
+
+
+        memberCheckboxes.forEach(function(checkbox) {
+
+            if (checkbox.checked) {
+
+                count++;
+
+            }
+
+        });
+
+
+        if (count === 1) {
+
+            memberCount.innerText =
+                "1 team member selected";
+
+        }
+
+        else {
+
+            memberCount.innerText =
+                count + " team members selected";
+
+        }
+
+    }
+
+
+    /* ==========================================
+       MEMBER SELECTION
+    ========================================== */
+
+    memberCheckboxes.forEach(function(checkbox) {
+
+        checkbox.addEventListener(
+            "change",
+            function() {
+
+                const row =
+                    checkbox.closest(".member-row");
+
+
+                if (checkbox.checked) {
+
+                    row.classList.add("selected");
+
+                }
+
+                else {
+
+                    row.classList.remove("selected");
+
+                }
+
+
+                updateMemberCount();
+
+            }
+        );
+
+    });
+
+
+    /* ==========================================
+       PROJECT TYPE EVENTS
+    ========================================== */
+
+    if (soloRadio) {
+
+        soloRadio.addEventListener(
+            "change",
+            updateProjectType
+        );
+
+    }
+
+
+    if (teamRadio) {
+
+        teamRadio.addEventListener(
+            "change",
+            updateProjectType
+        );
+
+    }
+
+
+    /* ==========================================
+       FORM VALIDATION
+    ========================================== */
+
+    if (projectForm) {
+
+        projectForm.addEventListener(
+            "submit",
+            function(event) {
+
+
+                /* ----------------------------------
+                   Project type required
+                ---------------------------------- */
+
+                if (
+                    !soloRadio.checked &&
+                    !teamRadio.checked
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select Solo Project or Team Project."
+                    );
+
+                    return;
+
+                }
+
+
+                /* ----------------------------------
+                   Team project validation
+                ---------------------------------- */
+
+                if (teamRadio.checked) {
+
+                    let selectedCount = 0;
+
+
+                    memberCheckboxes.forEach(
+                        function(checkbox) {
+
+                            if (checkbox.checked) {
+
+                                selectedCount++;
+
+                            }
+
+                        }
+                    );
+
+
+                    if (selectedCount === 0) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please select at least one team member. " +
+                            "If you are working alone, select Solo Project."
+                        );
+
+                        return;
+
+                    }
+
+                }
+
+
+                /* ----------------------------------
+                   Team/project name
+                ---------------------------------- */
+
+                const teamName =
+                    document.getElementById(
+                        "team_name"
+                    ).value.trim();
+
+
+                if (!teamName) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter your Team / Project Name."
+                    );
+
+                    return;
+
+                }
+
+
+                /* ----------------------------------
+                   Project title
+                ---------------------------------- */
+
+                const projectTitle =
+                    document.getElementById(
+                        "project_title"
+                    ).value.trim();
+
+
+                if (!projectTitle) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter your Project Title."
+                    );
+
+                    return;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* ==========================================
+       INITIAL STATE
+    ========================================== */
+
+    updateProjectType();
+
+</script>
 
 </body>
 </html>
